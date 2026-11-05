@@ -19,3 +19,34 @@ def extract_pdf_elements(path, fname):
         combine_text_under_n_chars=2000,  # 2000자 이하의 텍스트는 결합
         image_output_dir_path=path,       # 이미지가 저장될 경로 설정
     )
+
+
+def categorize_elements(raw_pdf_elements):
+    """
+    PDF에서 추출한 요소들을 테이블과 텍스트로 분류합니다.
+    raw_pdf_elements: unstructured.documents.elements 리스트
+    """
+    tables = []
+    texts = []
+    for element in raw_pdf_elements:
+        if "unstructured.documents.elements.Table" in str(type(element)):
+            tables.append(str(element))   # 테이블 요소를 저장
+        elif "unstructured.documents.elements.CompositeElement" in str(type(element)):
+            texts.append(str(element))    # 텍스트 요소를 저장
+    return texts, tables
+
+import os
+
+# 현재 작업 디렉터리 경로를 반환합니다.
+current_directory = os.getcwd()
+
+# fname: 처리할 PDF 파일 이름 / fpath: PDF가 저장된 폴더 경로
+fname = "invest.pdf"
+fpath = os.path.join(os.path.dirname(current_directory), "invest/")
+
+print("현재 스크립트의 위치:", current_directory)
+print("pdf 위치:", fpath)
+
+# 실행하면 2~3분 걸립니다. 멈춘 게 아니니 기다리세요.
+raw_pdf_elements = extract_pdf_elements(fpath, fname)
+texts, tables = categorize_elements(raw_pdf_elements)
