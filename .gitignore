@@ -20,3 +20,7 @@ __pycache__/
 .vscode/
 .idea/
 .DS_Store
+
+# 중간 산출물 (PDF 본문·표·이미지가 그대로 들어 있음, 원본 자료는 재배포 금지)
+data/processed/
+data/table_pages_cache.json
